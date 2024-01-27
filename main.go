@@ -1,19 +1,26 @@
 package main
 
 import (
-    "github.com/gofiber/fiber/v2"
+	"log"
+
+	"github.com/christian-nickerson/golang-onnx-api/config"
+	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
-    // Start a new fiber app
-    app := fiber.New()
+	// Load configs
+	config, err := config.LoadConfig("settings")
+	if err != nil {
+		log.Fatal("cannot load config:", err)
+	}
 
-    // Send a string back for GET calls to the endpoint "/"
-    app.Get("/", func(c *fiber.Ctx) error {
-        err := c.SendString("And the API is UP! for now... or will it...?")
-        return err
-    })
+	app := fiber.New()
 
-    // Listen on PORT 3000
-    app.Listen(":3000")
+	// Send a string back for GET calls to the endpoint "/"
+	app.Get("/", func(c *fiber.Ctx) error {
+		err := c.SendString("And the API is UP! for now... or will it...?")
+		return err
+	})
+
+	app.Listen(":" + config.API.Port)
 }

@@ -1,16 +1,37 @@
 package config
 
 import (
-	"fmt"
-	"os"
-	"github.com/joho/godotenv"
+	"strings"
+
+	"github.com/spf13/viper"
 )
 
-// config func to get config var from a .env file
-func Config(key string) string {
-	err := godotenv.Load(".env")
+type ApiConfig struct {
+	Port string `mapstructure:"port"`
+}
+
+type Config struct {
+	API ApiConfig `mapstructure:"api"`
+}
+
+// loadConfig reads configuration variables from toml or environment variables
+func LoadConfig(name string) (config Config, err error) {
+	viper.AddConfigPath("./config")
+	viper.AddConfigPath(".")
+
+	replacer := strings.NewReplacer(".", "__")
+	viper.SetEnvKeyReplacer(replacer)
+	viper.SetEnvPrefix("API")
+
+	viper.SetConfigName(name)
+	viper.SetConfigType("toml")
+	viper.AutomaticEnv()
+
+	err = viper.ReadInConfig()
 	if err != nil {
-		fmt.Print("error loading .env file")
+		return
 	}
-	return os.Getenv(key)
+
+	err = viper.Unmarshal(&config)
+	return
 }
