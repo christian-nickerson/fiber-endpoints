@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/christian-nickerson/golang-onnx-api/config"
+	"github.com/christian-nickerson/golang-onnx-api/internal/config"
 	"github.com/gofiber/fiber/v2"
 )
 

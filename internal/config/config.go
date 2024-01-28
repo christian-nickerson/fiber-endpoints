@@ -16,7 +16,7 @@ type Config struct {
 
 // loadConfig reads configuration variables from toml or environment variables
 func LoadConfig(name string) (config Config, err error) {
-	viper.AddConfigPath("./config")
+	viper.AddConfigPath("./internal/config")
 	viper.AddConfigPath(".")
 
 	replacer := strings.NewReplacer(".", "__")
