@@ -13,7 +13,7 @@ var err error
 // LoadModel loads the local model file
 func LoadModel() {
 	useTransformation := true
-	model, err = leaves.LGEnsembleFromFile("./modelling/model.txt", useTransformation)
+	model, err = leaves.LGEnsembleFromFile("./model.txt", useTransformation)
 	if err != nil {
 		log.Fatal(err)
 	}
