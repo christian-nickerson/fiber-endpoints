@@ -1,10 +1,16 @@
 package main
 
 import (
-	"log"
+	"github.com/gofiber/fiber/v2/log"
 
 	"github.com/christian-nickerson/golang-onnx-api/internal/config"
+	"github.com/christian-nickerson/golang-onnx-api/internal/logging"
+	"github.com/christian-nickerson/golang-onnx-api/internal/routes"
+	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/healthcheck"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/requestid"
 )
 
 func main() {
@@ -14,13 +20,19 @@ func main() {
 		log.Fatal("cannot load config:", err)
 	}
 
-	app := fiber.New()
-
-	// Send a string back for GET calls to the endpoint "/"
-	app.Get("/", func(c *fiber.Ctx) error {
-		err := c.SendString("And the API is UP! for now... or will it...?")
-		return err
+	// Setup app
+	app := fiber.New(fiber.Config{
+		JSONEncoder: json.Marshal,
+		JSONDecoder: json.Unmarshal,
 	})
+
+	// Add logging
+	app.Use(requestid.New())
+	app.Use(logger.New(logging.LoggingConfig))
+
+	// Add routes
+	app.Use(healthcheck.New(routes.HealthCheckConfig))
+	routes.AddInferenceRoutes(app)
 
 	app.Listen(":" + config.API.Port)
 }
