@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2/log"
 
 	"github.com/christian-nickerson/golang-onnx-api/internal/config"
+	"github.com/christian-nickerson/golang-onnx-api/internal/handlers"
 	"github.com/christian-nickerson/golang-onnx-api/internal/logging"
 	"github.com/christian-nickerson/golang-onnx-api/internal/routes"
 	"github.com/goccy/go-json"
@@ -19,6 +20,8 @@ func main() {
 	if err != nil {
 		log.Fatal("cannot load config:", err)
 	}
+
+	handlers.LoadModel()
 
 	// Setup app
 	app := fiber.New(fiber.Config{

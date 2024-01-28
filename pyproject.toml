@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "modelling"
+version = "0.1.0"
+description = ""
+authors = ["Christian Nickerson <christian_nickerson@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+scikit-learn = "1.4.0"
+lightgbm = "3.3.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
