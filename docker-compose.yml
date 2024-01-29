@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+
+  fiber:
+    build:
+      context: .
+      dockerfile: Dockerfile.fiber
+    ports:
+      - 3000:3000
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://0.0.0.0:3000/health" ]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 10s
+
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile.fastapi
+    ports:
+      - 8000:8000
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://0.0.0.0:8000/health" ]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 10s

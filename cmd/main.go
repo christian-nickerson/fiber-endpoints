@@ -21,7 +21,7 @@ func main() {
 		log.Fatal("cannot load config:", err)
 	}
 
-	handlers.LoadModel()
+	handlers.LoadModel(config.Model.File)
 
 	// Setup app
 	app := fiber.New(fiber.Config{
@@ -37,5 +37,5 @@ func main() {
 	app.Use(healthcheck.New(routes.HealthCheckConfig))
 	routes.AddInferenceRoutes(app)
 
-	app.Listen(":" + config.API.Port)
+	app.Listen(":" + config.Fiber.Port)
 }

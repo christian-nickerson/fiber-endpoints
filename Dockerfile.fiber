@@ -1,0 +1,16 @@
+FROM golang:1.21.6
+
+WORKDIR /app
+
+COPY go.sum .
+COPY go.mod .
+RUN go mod download
+
+COPY cmd/ cmd/
+COPY settings.toml .
+COPY internal/ internal/
+COPY model.txt .
+
+RUN CGO_ENABLED=0 GOOS=linux go build cmd/main.go
+
+CMD [ "./main" ]

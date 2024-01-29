@@ -1,0 +1,8 @@
+[fiber]
+port = 3000
+
+[fastapi]
+port = 8000
+
+[model]
+file = "model.txt"

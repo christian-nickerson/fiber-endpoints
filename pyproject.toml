@@ -7,9 +7,19 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-scikit-learn = "1.4.0"
 lightgbm = "3.3.5"
+dynaconf = "3.2.4"
 
+[tool.poetry.group.train.dependencies]
+scikit-learn = "1.4.0"
+
+[tool.poetry.group.inference.dependencies]
+fastapi = "0.109.0"
+uvicorn = "0.27.0.post1"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "24.1.1"
 
 [build-system]
 requires = ["poetry-core"]
