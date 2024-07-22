@@ -1,25 +1,35 @@
 [tool.poetry]
+package-mode = false
 name = "modelling"
 version = "0.1.0"
 description = ""
 authors = ["Christian Nickerson <christian_nickerson@hotmail.com>"]
 readme = "README.md"
 
+
 [tool.poetry.dependencies]
 python = "^3.10"
 lightgbm = "3.3.5"
 dynaconf = "3.2.4"
 
+
+[tool.poetry.group.dev.dependencies]
+black = "24.1.1"
+
+
 [tool.poetry.group.train.dependencies]
 scikit-learn = "1.4.0"
+
 
 [tool.poetry.group.inference.dependencies]
 fastapi = "0.109.0"
 uvicorn = "0.27.0.post1"
 
 
-[tool.poetry.group.dev.dependencies]
-black = "24.1.1"
+[tool.poetry.group.notebook.dependencies]
+ipykernel = "6.29.5"
+httpx = "0.27.0"
+
 
 [build-system]
 requires = ["poetry-core"]

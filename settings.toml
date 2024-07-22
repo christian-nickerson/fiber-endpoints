@@ -5,4 +5,6 @@ port = 3000
 port = 8000
 
 [model]
+estimators = 500
 file = "model.txt"
+training_samples = 5_000_000
