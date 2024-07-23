@@ -1,3 +1,5 @@
+name = "fiber-endpoints"
+
 [fiber]
 port = 3000
 

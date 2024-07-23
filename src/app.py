@@ -3,8 +3,10 @@ from contextlib import asynccontextmanager
 import numpy as np
 from fastapi import FastAPI, Request, Response
 from lightgbm import Booster
+from opentelemetry import trace
 
 from config import settings
+from otel import instrumentor, oltp_tracer
 from schema import InferenceRequest, InferenceResponse
 
 
@@ -15,6 +17,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+instrumentor.instrument_app(app, tracer_provider=oltp_tracer)
+tracer = trace.get_tracer(__name__)
 
 
 @app.get("/health")
@@ -34,7 +38,8 @@ def inference(request: Request, body: InferenceRequest) -> InferenceResponse:
     :return: Prediction response
     """
     inference = np.asarray([body.data])
-    prediction = request.app.state.model.predict(inference)
+    with tracer.start_as_current_span("model-inference"):
+        prediction = request.app.state.model.predict(inference)
     return InferenceResponse(prediction=prediction)
 
 

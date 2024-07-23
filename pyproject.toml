@@ -1,6 +1,6 @@
 [tool.poetry]
 package-mode = false
-name = "modelling"
+name = "fiber-endpoints"
 version = "0.1.0"
 description = ""
 authors = ["Christian Nickerson <christian_nickerson@hotmail.com>"]
@@ -24,6 +24,10 @@ scikit-learn = "1.4.0"
 [tool.poetry.group.inference.dependencies]
 fastapi = "0.109.0"
 uvicorn = "0.27.0.post1"
+opentelemetry-api = "^1.25.0"
+opentelemetry-sdk = "^1.25.0"
+opentelemetry-instrumentation-fastapi = "^0.46b0"
+opentelemetry-exporter-otlp = "^1.25.0"
 
 
 [tool.poetry.group.notebook.dependencies]
