@@ -2,18 +2,15 @@ version: '3.7'
 
 services:
 
-  fiber:
-    build:
-      context: .
-      dockerfile: Dockerfile.fiber
+  jaeger:
+    image: jaegertracing/all-in-one:latest
     ports:
-      - 3000:3000
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://0.0.0.0:3000/health" ]
-      interval: 30s
-      timeout: 30s
-      retries: 5
-      start_period: 10s
+      - "6831:6831/udp"
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
+    networks:
+      - benchmarking
 
   fastapi:
     build:
@@ -27,3 +24,27 @@ services:
       timeout: 30s
       retries: 5
       start_period: 10s
+    networks:
+      - benchmarking
+    depends_on:
+      - jaeger
+
+  fiber:
+    build:
+      context: .
+      dockerfile: Dockerfile.fiber
+    ports:
+      - 3000:3000
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://0.0.0.0:3000/health" ]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 10s
+    networks:
+      - benchmarking
+    depends_on:
+      - jaeger
+
+networks:
+  benchmarking:
