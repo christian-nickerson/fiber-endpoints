@@ -7,9 +7,9 @@ from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
 from config import settings
 
-resource = Resource.create({SERVICE_NAME: f"{settings.name}-fastapi"})
+resource = Resource.create({SERVICE_NAME: settings.fastapi.name})
 provider = TracerProvider(resource=resource)
-batch_span = BatchSpanProcessor(OTLPSpanExporter("http://jaeger:4317"))
+batch_span = BatchSpanProcessor(OTLPSpanExporter(f"http://{settings.otel.host}"))
 
 trace.set_tracer_provider(provider)
 oltp_tracer = trace.get_tracer_provider().add_span_processor(batch_span)

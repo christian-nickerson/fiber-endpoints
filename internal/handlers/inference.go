@@ -1,13 +1,14 @@
 package handlers
 
 import (
+	"context"
 	"log"
 
-	"github.com/christian-nickerson/golang-onnx-api/internal/schema"
 	"github.com/dmitryikh/leaves"
-	"github.com/gofiber/fiber/v2"
+	"go.opentelemetry.io/otel"
 )
 
+var tracer = otel.Tracer("fiber-endpoints-fiber")
 var model *leaves.Ensemble
 var err error
 
@@ -20,10 +21,9 @@ func LoadModel(fileName string) {
 	}
 }
 
-// InferenceRequest returns prediction from inference request
-func InferenceRequest(c *fiber.Ctx) error {
-	body := new(schema.InferenceRequest)
-	c.BodyParser(&body)
-	p := model.PredictSingle(body.Data, 0)
-	return c.JSON(fiber.Map{"prediction": p})
+// InferenceModel returns prediction from inference request
+func InferenceModel(ctx context.Context, data []float64) float64 {
+	ctx, span := tracer.Start(ctx, "InferenceModel")
+	defer span.End()
+	return model.PredictSingle(data, 0)
 }

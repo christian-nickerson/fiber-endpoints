@@ -8,18 +8,24 @@ import (
 
 type ApiConfig struct {
 	Port string `mapstructure:"port"`
+	Name string `mapstructure:"name"`
 }
 
 type ModelConfig struct {
 	File string `mapstructure:"file"`
 }
 
+type OTELConfig struct {
+	Host string `mapstructure:"host"`
+}
+
 type Config struct {
 	Fiber ApiConfig   `mapstructure:"fiber"`
 	Model ModelConfig `mapstructure:"model"`
+	OTEL  OTELConfig  `mapstructure:"OTEL"`
 }
 
-// loadConfig reads configuration variables from toml or environment variables
+// LoadConfig reads configuration variables from toml or environment variables
 func LoadConfig(name string) (config Config, err error) {
 	viper.AddConfigPath("./internal/config")
 	viper.AddConfigPath(".")

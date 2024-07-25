@@ -2,11 +2,16 @@ name = "fiber-endpoints"
 
 [fiber]
 port = 3000
+name = "fiber"
 
 [fastapi]
 port = 8000
+name = "fastapi"
 
 [model]
 estimators = 500
 file = "model.txt"
 training_samples = 5_000_000
+
+[OTEL]
+host = "jaeger:4317"
