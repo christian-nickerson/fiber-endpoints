@@ -39,7 +39,12 @@ Model Endpoint | Mean latency (s) | Median Latency (s) | Mean diff. vs control
 Python `FastAPI` (control) | 0.261092 | 0.255399 | -
 GoLang `Fiber` | 0.086377 | 0.083931 | 100.56%
 
-## Traced examples
+## Traced requests
 
 ### FastAPI
 
+![FastAPI results](images/FastAPI.png)
+
+### Fiber
+
+![Fiber results](images/Fiber.png)
