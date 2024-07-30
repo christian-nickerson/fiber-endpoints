@@ -1,4 +1,4 @@
-module github.com/christian-nickerson/golang-onnx-api
+module github.com/christian-nickerson/fiber-endpoints
 
 go 1.21
 

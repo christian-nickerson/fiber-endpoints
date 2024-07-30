@@ -8,7 +8,7 @@ import (
 	"go.opentelemetry.io/otel"
 )
 
-var tracer = otel.Tracer("fiber-endpoints-fiber")
+var tracer = otel.Tracer("github.com/christian-nickerson/fiber-endpoints")
 var model *leaves.Ensemble
 var err error
 
@@ -21,9 +21,9 @@ func LoadModel(fileName string) {
 	}
 }
 
-// InferenceModel returns prediction from inference request
-func InferenceModel(ctx context.Context, data []float64) float64 {
-	ctx, span := tracer.Start(ctx, "InferenceModel")
+// TracedInference returns prediction from inference request with tracing
+func TracedInference(context context.Context, data []float64) float64 {
+	context, span := tracer.Start(context, "InferenceModel")
 	defer span.End()
 	return model.PredictSingle(data, 0)
 }

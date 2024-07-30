@@ -26,11 +26,20 @@ Each endpoint has an accompanying Dockerfile to run the endpoint (orchestrated w
 
 # Results
 
-To test each endpoint, the benchmarking notebook makes 100 calls to each model, synchronously. The latency of every 100 calls is captured, and the notebook samples each model 50 times (50*100 calls to each model). The average of these samples is what we take as our result.
+To test each endpoint, the benchmarking notebook makes 100 calls to each model, synchronously. The latency of every 100 calls is captured, and the notebook samples each model 50 times (50*100 calls to each model). The average of these samples is what we take as our result. This provides us some overall performance metrics for each endpoint as though we were making shadow calls to each endpoint and comparing.
 
-The testing methdology here is far from comprehensive, however, this project is simply an experiment and proof of concept.
+Additionally, each endpoint has OpenTelemetry tracing instrumented, with Jaeger collecting metrics. Using Jaeger, we can inspect and compare representative (cherry picking some of the fastest calls) traced calls to compare the latency of inference calling latency of the entire call (the overhead of handling an HTTP call).
+
+The testing methodology here is far from comprehensive nor rigorous, however, this project is simply an experiment and proof of concept.
+
+## End to end latency
 
 Model Endpoint | Mean latency (s) | Median Latency (s) | Mean diff. vs control
 --- | --- | --- | ---
-Python `FastAPI` (control) | 0.247960 | 0.248045 | -
-GoLang `Fiber` | 0.108607 | 0.106541 | 78.16%
+Python `FastAPI` (control) | 0.261092 | 0.255399 | -
+GoLang `Fiber` | 0.086377 | 0.083931 | 100.56%
+
+## Traced examples
+
+### FastAPI
+
